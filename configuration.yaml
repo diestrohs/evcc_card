@@ -1,0 +1,158 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+input_boolean:
+  evcc_toggle:
+    name: 'EVCC Toggle'
+    icon: mdi:toggle-switch-off-outline
+      
+input_select:
+  evcc_data_list:
+    name: 'EVCC Data List'
+    icon: mdi:format-list-bulleted
+    options:
+      - Ladedauer
+      - Sonne
+      - Preis
+      - Kosten
+
+input_number:
+  evcc_garage_vehicle_soc:
+    name: 'EVCC Garage Vehicle SOC'
+    mode: slider
+    initial: 20
+    min: 20
+    max: 100
+    step: 1.0
+
+#Sensor Template
+template:
+#EVCC
+  - sensor:
+      - name: "EVCC Power to Grid"
+        icon: mdi:transmission-tower-import
+        unique_id: 3FB94BE3-E2D3-42B4-B85A-1DE91491BE8F
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.evcc_grid_power') | is_number %}
+            {{ max(0, 0 - (states('sensor.evcc_grid_power') | float(default=0))) }}
+          {% else %}
+            {{ this.state }}
+          {% endif %}
+
+      - name: "EVCC Power from Grid"
+        icon: mdi:transmission-tower-export
+        unique_id: 1D4DDA91-F83F-437E-865D-79E9122018C6
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.evcc_grid_power') | is_number %}
+            {{ max(0, states('sensor.evcc_grid_power') | float(default=0)) }}
+          {% else %}
+            {{ this.state }}
+          {% endif %}
+
+      - name: "EVCC Power to Battery"
+        icon: mdi:home-battery-outline
+        unique_id: 4b7c09af-5cf0-4ee0-9047-6c3cd418dd51
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.evcc_battery_power') | is_number %}
+            {{ max(0, 0 - (states('sensor.evcc_battery_power') | float(default=0))) }}
+          {% else %}
+            {{ this.state }}
+          {% endif %}
+
+      - name: "EVCC Power from Battery"
+        icon: mdi:home-battery-outline
+        unique_id: 0e702ef0-79d4-45a0-a64e-203e345e265a
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.evcc_battery_power') | is_number %}
+            {{ max(0, states('sensor.evcc_battery_power') | float(default=0)) }}
+          {% else %}
+            {{ this.state }}
+          {% endif %}
+
+      - name: "EVCC Total Power"
+        icon: mdi:home-battery-outline
+        unique_id: b8f2badd-bf55-4cc5-98cd-1de196607670
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {{ (states('sensor.evcc_pv_power')|float + states('sensor.evcc_power_from_battery')|float + states('sensor.evcc_power_from_grid')|float)|round(2) }}
+
+      - name: "EVCC Garage Vehicle Status"
+        icon: mdi:home-battery-outline
+        unique_id: e0e970f6-245d-470d-9cad-2e5e00b2751e
+        state: >
+          {% if is_state('binary_sensor.evcc_garage_connected', 'off') %}
+            Nicht verbunden.
+          {% elif is_state('binary_sensor.evcc_garage_enabled', 'on') and
+          is_state('binary_sensor.evcc_garage_charging', 'off') %}
+            Warte auf Fahrzeug...
+          {% elif is_state('binary_sensor.evcc_garage_charging', 'on') %}
+            Ladevorgang aktiv...
+          {% elif is_state('binary_sensor.evcc_garage_enabled', 'off') and
+          is_state('binary_sensor.evcc_garage_charging', 'off') %}
+            Verbunden.
+          {% endif %}
+
+  - number:
+      - name: "EVCC Garage Charging Limit SOC"
+        unique_id: 65947cbf-9a8a-4c41-9f66-029932403ebc
+        state: "{{ states('sensor.evcc_garage_effective_limit_soc') | int(default=0) }}"
+        min: 20
+        max: 100
+        step: 5
+        unit_of_measurement: "%"
+        set_value:
+          service: number.set_value
+          target:
+            entity_id: number.evcc_garage_limit_soc
+          data:
+            value: "{{ value }}"
+
+  - select:
+      - name: "EVCC my vehicle limit SOC"
+        unique_id: 7507a1f5-6b52-41dd-931e-605c40cdb3d2
+        state: "{{ states('number.evcc_garage_limit_soc') | float | round(0) }}"
+        options: >
+          {% set start = 20 %}
+          {% set end = 100 %}
+          {% set step = 5 %}
+          {% set vehicle_soc = states('sensor.evcc_garage_vehicle_soc') | float %}
+          {% set vehicle_range = states('sensor.evcc_garage_vehicle_range') | float %}
+          {% set km_per_percentage = 0 %}
+
+          {% if vehicle_soc != 0 %}
+            {% set km_per_percentage = (vehicle_range / vehicle_soc) | round(0) %}
+          {% endif %}
+
+          {% set percentages = range(start, end + 1, step) %}
+          {% set options = [] %}
+          {% for percentage in percentages %}
+            {% set km = percentage * km_per_percentage %}
+            {% set option = "%d %% (%d km)" % (percentage, km) %}
+            {% set options = options + [option] %}
+          {% endfor %}
+          {{ options }}
+        select_option:
+          - service: number.set_value
+            target:
+              entity_id: number.evcc_garage_limit_soc
+            data:
+              value: "{{ option | regex_replace(' .*', '') }}"
+        icon: mdi:car-battery
