@@ -9,7 +9,7 @@ This implementation is in a very early development stage and currently only cove
 ## Requirements
 - A running and configured EVCC instance in your network
 - Home Assistant with HACS
-- Installation of the ha-evcc integration
-- Installation of the following cards:
+- Installation of the ha-evcc integration other hacs
+- Installation of the following cards other hacs:
   - vertical-stack-in-card
 ## Main features
