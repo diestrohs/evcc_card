@@ -11,10 +11,18 @@ This implementation is in a very early development stage and currently only cove
 - Home Assistant with HACS
 - Installation of the evcc integration other hacs
 - Installation of the following cards other hacs:
+  - card-mod
+  - hui-element
+  - layout-card
   - Vertical Stack In Card
   - Mushroom
   - Sankey Chart Card
+  - Multiple Entity Row
+  - button-card
 ## Info
 The implementation consists of two main cards:
 - Energy card
 - Charging point and the vehicle connected to it
+## Helpers
+input_boolean:
+  - evcc_toggle
