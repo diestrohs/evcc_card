@@ -7,17 +7,9 @@ Please note that this card was created for personal use and is made available fo
 ## Note
 This implementation is in a very early development stage and currently only covers a small fraction of the original EVCC WebGUI.
 ## Requirements
-A running and configured EVCC instance in your network
-Home Assistant with HACS
-Installation of the ha-evcc integration
-Installation of the following cards:
-- vertical-stack-in-card
+- A running and configured EVCC instance in your network
+- Home Assistant with HACS
+- Installation of the ha-evcc integration
+- Installation of the following cards:
+  - vertical-stack-in-card
 ## Main features
-
-- Supporting all evcc API-POST & DELETE requests (except `POST /api/settings/telemetry/<status>`) to adjust the evcc settings, loadpoints and the corresponding vehicles
-  - Loadpoint mode [Off, Solar, Min+Solar, Fast]
-  - Phases to use [Auto, 1p, 3p]
-  - Assign vehicles to loadpoints
-  - Configure min & max charging currents
-  - Configure cost limits (€ or CO₂)
-  - Adjust home-battery settings
