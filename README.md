@@ -12,4 +12,7 @@ This implementation is in a very early development stage and currently only cove
 - Installation of the ha-evcc integration other hacs
 - Installation of the following cards other hacs:
   - vertical-stack-in-card
-## Main features
+## Info
+The implementation consists of two main cards:
+- Energy card
+- Charging point and the vehicle connected to it
