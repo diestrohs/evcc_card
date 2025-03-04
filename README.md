@@ -23,6 +23,3 @@ This implementation is in a very early development stage and currently only cove
 The implementation consists of two main cards:
 - Energy card
 - Charging point and the vehicle connected to it
-## Helpers
-input_boolean:
-  - evcc_toggle
