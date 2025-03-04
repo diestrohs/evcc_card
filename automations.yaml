@@ -12,28 +12,3 @@
         entity_id: input_number.evcc_garage_vehicle_soc
       data:
         value: '{{ states(''sensor.evcc_garage_vehicle_soc'') }}'
-# Aktualisierung des Helpers input_select.evcc_plan_date
-- alias: "Refresh Plan Data Helper"
-  trigger:
-    - platform: homeassistant
-      event: start
-    - platform: time
-      at: "00:00:00"
-  action:
-    - service: input_select.set_options
-      target:
-        entity_id: input_select.evcc_plan_date
-      data:
-        options:
-          - "{{ (now().astimezone()).strftime('%d.%b.') }} (heute)"
-          - "{{ (now().astimezone() + timedelta(days=1)).strftime('%d.%b.') }} (morgen)"
-          - "{{ (now().astimezone() + timedelta(days=2)).strftime('%d.%b.') }} ({{ ['Mo','Di','Mi','Do','Fr','Sa','So'][(now().weekday() + 2) % 7] }})"
-          - "{{ (now().astimezone() + timedelta(days=3)).strftime('%d.%b.') }} ({{ ['Mo','Di','Mi','Do','Fr','Sa','So'][(now().weekday() + 3) % 7] }})"
-          - "{{ (now().astimezone() + timedelta(days=4)).strftime('%d.%b.') }} ({{ ['Mo','Di','Mi','Do','Fr','Sa','So'][(now().weekday() + 4) % 7] }})"
-          - "{{ (now().astimezone() + timedelta(days=5)).strftime('%d.%b.') }} ({{ ['Mo','Di','Mi','Do','Fr','Sa','So'][(now().weekday() + 5) % 7] }})"
-          - "{{ (now().astimezone() + timedelta(days=6)).strftime('%d.%b.') }} ({{ ['Mo','Di','Mi','Do','Fr','Sa','So'][(now().weekday() + 6) % 7] }})"
-    - service: input_select.select_option
-      target:
-        entity_id: input_select.evcc_plan_date
-      data:
-        option: "{{ (now().astimezone()).strftime('%d.%b.') }} (heute)"
