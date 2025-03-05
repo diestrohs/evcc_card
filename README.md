@@ -21,5 +21,5 @@ This implementation is in a very early development stage and currently only cove
   - button-card
 ## Info
 The implementation consists of two main cards:
-- Power card: evcc_power.yaml
-- Charging point and the vehicle connected to it: evcc_loadpoint.yaml
+- Power card: evcc_power_card.yaml
+- Charging point and the vehicle connected to it: evcc_loadpoint_card.yaml
