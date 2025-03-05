@@ -1,0 +1,205 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Domizil
+        secondary: ""
+        icon: mdi:home-lightning-bolt-outline
+        icon_color: "#44739E"
+        card_mod:
+          style: |
+            mushroom-shape-icon {
+              --shape-color: none !important;
+              --shape-color-disabled: none !important;
+            }
+            :host {
+              --mush-icon-symbol-size: 0.7em;
+              --mush-control-icon-size: 0.5em;
+              --mush-card-primary-font-weight: normal;
+              --mush-card-primary-font-size: 1.7em;
+              --mush-card-secondary-font-weight: normal;
+              --mush-card-secondary-font-size: 1.2em;
+              --mush-control-icon-size 2.5em;
+            }
+            ha-card {
+              font-style: normal;
+              border: none;
+              box-shadow: none;
+              padding: 0px !important;
+            }
+      - type: custom:mushroom-chips-card
+        alignment: end
+        chips:
+          - type: template
+            icon: |-
+              {% if is_state(entity, 'off') %}
+                mdi:chevron-down 
+              {% elif is_state(entity, 'on') %}   
+                mdi:chevron-up    
+              {% endif %}
+            tap_action:
+              action: toggle
+            entity: input_boolean.evcc_toggle
+            icon_color: "#03a9f4"
+        card_mod:
+          style: |
+            ha-card {
+              --chip-border-radius: 12px;
+              --chip-border-width: 0px;
+              --chip-box-shadow: none;
+              --chip-icon-size: 0.7em;
+              padding: 12px 12px !important;
+            }
+  - type: custom:sankey-chart
+    show_names: true
+    wide: true
+    min_state: 0.02
+    show_icons: true
+    energy_date_selection: false
+    layout: horizontal
+    height: 100
+    unit_prefix: k
+    round: 1
+    convert_units_to: ""
+    min_box_size: 3
+    min_box_distance: 5
+    show_states: true
+    show_units: true
+    sections:
+      - entities:
+          - type: entity
+            children:
+              - sensor.evcc_total_power
+            entity_id: sensor.evcc_pv_power
+            color: var(--warning-color)
+            name: PV
+            color_on_state: false
+          - type: entity
+            children:
+              - sensor.evcc_total_power
+            entity_id: sensor.evcc_grid_power
+            name: Netz
+            color: grey
+          - type: entity
+            children:
+              - sensor.evcc_total_power
+            entity_id: sensor.evcc_power_from_battery
+            color: var(--success-color)
+            name: Battery
+      - entities:
+          - type: entity
+            children:
+              - sensor.evcc_home_power
+              - sensor.evcc_power_to_battery
+              - sensor.evcc_power_to_grid
+              - sensor.evcc_garage_charge_power
+            entity_id: sensor.evcc_total_power
+            name: Total
+            color: var(--primary-color)
+      - entities:
+          - type: entity
+            children: []
+            entity_id: sensor.evcc_home_power
+            name: Haus
+            color: indigo
+          - type: entity
+            children: []
+            entity_id: sensor.evcc_power_to_battery
+            name: Batterie
+            color: var(--success-color)
+          - type: entity
+            children: []
+            entity_id: sensor.evcc_power_to_grid
+            name: Netz
+            color: grey
+          - type: entity
+            children: []
+            entity_id: sensor.evcc_garage_charge_power
+            icon: mdi:ev-station
+            name: Lader
+            color: purple
+    card_mod:
+      style: |
+        .container {
+          {% set mode = states('input_boolean.evcc_toggle') %}
+          {% if mode == 'on' %}
+            padding: 0px 16px 0px 16px !important;
+          {% else %}
+            padding: 0px 16px 16px 16px !important;
+          {% endif %}
+        }
+        ha-card {
+          border: none;
+          box-shadow: none;
+        }
+  - type: conditional
+    conditions:
+      - entity: input_boolean.evcc_toggle
+        state: "on"
+    card:
+      type: entities
+      entities:
+        - type: divider
+          style:
+            height: 1px
+            width: 100%
+            margin-left: auto
+            margin-right: auto
+        - entity: sensor.evcc_total_power
+          name: Total
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: var(--primary-color);
+              }
+        - entity: sensor.evcc_pv_power
+          name: Erzeugung
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: var(--warning-color);
+              }
+        - entity: sensor.evcc_battery_power
+          name: Batterie
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: var(--success-color);
+              }
+          type: custom:multiple-entity-row
+          entities:
+            - entity: sensor.evcc_battery_soc
+              name: false
+        - entity: sensor.evcc_grid_power
+          name: Netz
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: grey;
+              }
+        - entity: sensor.evcc_home_power
+          name: Haus
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: indigo;
+              }
+        - entity: sensor.evcc_garage_charge_power
+          name: Ladepunkt
+          card_mod:
+            style: |
+              :host {
+                --paper-item-icon-color: purple;
+              }
+          type: custom:multiple-entity-row
+          entities:
+            - entity: sensor.evcc_garage_vehicle_soc
+              name: false
+      card_mod:
+        style: |
+          ha-card {
+            border: none;
+            box-shadow: none;
+            padding: 0px !important;
+          }
