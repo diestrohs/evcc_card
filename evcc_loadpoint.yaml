@@ -1,0 +1,910 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Garage
+        icon: mdi:ev-station
+        icon_color: |-
+          {% set mode = states('binary_sensor.evcc_garage_charging') %}
+          {% if mode == 'off' %}
+            #44739e
+          {% elif mode =='on' %}
+            green
+          {% else %}
+            gray
+          {% endif %}
+        multiline_secondary: false
+        layout: horizontal
+        fill_container: false
+        card_mod:
+          style: |
+            mushroom-shape-icon {
+              --shape-color: none !important;
+              --shape-color-disabled: none !important;
+            }
+            :host {
+              --mush-icon-symbol-size: 0.7em;
+              --mush-control-icon-size: 0.5em;
+              --mush-card-primary-line-height: 25px;;
+              --mush-card-primary-font-weight: normal;
+              --mush-card-primary-font-size: 1.7em;
+              --mush-card-secondary-font-weight: normal;
+              --mush-card-secondary-font-size: 1.2em;
+              --mush-control-icon-size 2.5em;
+            }
+            ha-card {
+              font-style: normal;
+              border: none;
+              box-shadow: none;
+              padding: 0px !important;
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:cog-outline
+            tap_action:
+              action: perform-action
+              perform_action: browser_mod.popup
+              data:
+                size: normal
+                dismissable: true
+                content:
+                  type: entities
+                  entities:
+                    - switch.evcc_garage_battery_boost
+                    - switch.evcc_battery_discharge_control
+                    - type: custom:hui-element
+                      card_type: vertical-stack
+                      cards:
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_buffer_start_soc
+                          icon_color: "#44739e"
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_buffer_soc
+                          icon_color: "#44739e"
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_priority_soc
+                          icon_color: "#44739e"
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_garage_phases_configured
+                          name: Phasen
+                          icon_color: "#44739e"
+                          layout: horizontal
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_garage_max_current
+                          name: Max. Ladestrom
+                          icon_color: "#44739e"
+                          layout: horizontal
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  border: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                        - type: custom:mushroom-select-card
+                          entity: select.evcc_garage_min_current
+                          name: Min. Ladestrom
+                          icon_color: "#44739e"
+                          layout: horizontal
+                          secondary_info: none
+                          card_mod:
+                            style:
+                              mushroom-select-option-control$:
+                                mushroom-select$: |
+                                  .mdc-select__anchor{
+                                    border-radius: 12px !important;
+                                  }
+                                  .mdc-line-ripple::before {
+                                    border-bottom-width: 0px !important;
+                                  }
+                                  .mdc-line-ripple::after {
+                                    border-bottom-width: 0px !important;
+                                  }
+                              .: |
+                                mushroom-shape-icon {
+                                  --shape-color: none !important;
+                                  --shape-color-disabled: none !important;
+                                }
+                                :host {
+                                  --mush-icon-symbol-size: 0.7em;
+                                  --mush-card-primary-font-weight: normal;
+                                  --mush-card-secondary-font-weight: normal;
+                                }
+                                ha-card {
+                                  background: none;
+                                  border: none;
+                                  box-shadow: none;
+                                  border: none;
+                                  padding: 0px !important;
+                                  margin: 0px -12px 0px 0px;
+                                }
+                title: Einstellungen Garage
+              target: {}
+            icon_color: "#03a9f4"
+        alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              --chip-border-radius: 12px;
+              --chip-border-width: 0px;
+              --chip-box-shadow: none;
+              --chip-icon-size: 0.7em;
+              padding: 12px 12px !important;
+            }
+  - type: entities
+    entities:
+      - type: custom:hui-element
+        card_type: horizontal-stack
+        cards:
+          - show_name: true
+            show_icon: false
+            show_state: false
+            type: custom:button-card
+            entity: select.evcc_garage_mode
+            name: Aus
+            state:
+              - value: "off"
+                styles:
+                  card:
+                    - background-color: rgba(var(--rgb-primary-color), 0.2)
+                  name:
+                    - color: var(--primary-color)
+            tap_action:
+              action: call-service
+              service: select.select_option
+              service_data:
+                entity_id: select.evcc_garage_mode
+                option: "off"
+          - show_name: true
+            show_icon: false
+            show_state: false
+            type: custom:button-card
+            entity: select.evcc_garage_mode
+            name: PV
+            state:
+              - value: pv
+                styles:
+                  card:
+                    - background-color: rgba(var(--rgb-primary-color), 0.2)
+                  name:
+                    - color: var(--primary-color)
+            tap_action:
+              action: call-service
+              service: select.select_option
+              service_data:
+                entity_id: select.evcc_garage_mode
+                option: pv
+          - show_name: true
+            show_icon: false
+            show_state: false
+            type: custom:button-card
+            entity: select.evcc_garage_mode
+            name: Min+PV
+            state:
+              - value: minpv
+                styles:
+                  card:
+                    - background-color: rgba(var(--rgb-primary-color), 0.2)
+                  name:
+                    - color: var(--primary-color)
+            tap_action:
+              action: call-service
+              service: select.select_option
+              service_data:
+                entity_id: select.evcc_garage_mode
+                option: minpv
+          - show_name: true
+            show_icon: false
+            show_state: false
+            type: custom:button-card
+            entity: select.evcc_garage_mode
+            name: Schnell
+            state:
+              - value: now
+                styles:
+                  card:
+                    - background-color: rgba(var(--rgb-primary-color), 0.2)
+                  name:
+                    - color: var(--primary-color)
+            tap_action:
+              action: call-service
+              service: select.select_option
+              service_data:
+                entity_id: select.evcc_garage_mode
+                option: now
+    card_mod:
+      style: |
+        ha-card {
+          border: none;
+          box-shadow: none;
+          padding: 0px !important;
+        }
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 33% 34% 33%
+      grid-template-areas: |
+        "A1 A2 A3"
+    cards:
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A1
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Leisung
+            secondary: "{{ states('sensor.evcc_garage_charge_power') | round(1) }}kW"
+            layout: horizontal
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                }
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A2
+        cards:
+          - type: custom:mushroom-template-card
+            primary: Geladen
+            secondary: "{{ states('sensor.evcc_garage_charged_energy') | round(1) }}kWh"
+            layout: horizontal
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                  text-align: center;
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                }
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A3
+        cards:
+          - type: custom:mushroom-template-card
+            primary: "{{ states('input_select.evcc_data_list') }}"
+            secondary: |-
+              {% set mode = states('input_select.evcc_data_list') %}
+              {% if mode == 'Ladedauer' %}
+                {% set duration = states('sensor.evcc_garage_charge_duration') %}
+                {% if duration not in ['none', 'unavailable', 'unknown'] %}
+                  {% set duration = duration | int %}
+                  {% if duration >= 3600 %}
+                    {% set hours = duration // 3600 %}
+                    {% set minutes = (duration % 3600) // 60 %}
+                    {{ hours }}:{{ '%02d' % minutes }}h  {# Stunden und Minuten, ohne Sekunden #}
+                  {% elif duration >= 60 %}
+                    {% set minutes = duration // 60 %}
+                    {% set seconds = duration % 60 %}
+                    {{ minutes }}:{{ '%02d' % seconds }}m
+                  {% else %}
+                    {{ duration | round(0) }}s
+                  {% endif %}
+                {% endif %}
+              {% elif mode =='Sonne' %}
+                {{ states("sensor.evcc_garage_session_solar_percentage") | round(2) }}%
+              {% elif mode =='Preis' %}      
+                {{ states("sensor.evcc_garage_session_price_per_kwh") | float (default=0.0) | round(2) }}€
+              {% elif mode =='Kosten' %}      
+                {{ states("sensor.evcc_garage_session_price") | float (default=0.0) | round(2) }}€
+              {% endif %}
+            layout: horizontal
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-color: var(--primary-color);
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                  text-align: right;
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                  align-items: end;
+                }
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A3
+        cards:
+          - type: custom:mushroom-select-card
+            name: " "
+            entity: input_select.evcc_data_list
+            secondary_info: none
+            icon_type: none
+            fill_container: true
+            card_mod:
+              style:
+                mushroom-select-option-control$:
+                  mushroom-select$: |
+                    .mdc-select__anchor{
+                      background: none !important;
+                      border-radius: 12px !important;
+                    }
+                    .mdc-line-ripple::before {
+                      border-bottom-width: 0px !important;
+                    }
+                    .mdc-line-ripple::after {
+                      border-bottom-width: 0px !important;
+                    }
+                    .mdc-select__selected-text {
+                      visibility: hidden;
+                    }
+                    .mdc-select__dropdown-icon {
+                      fill: transparent !important;  
+                    }
+                    .mdc-select {
+                      position: absolute !important;
+                      width: 100% !important;
+                      --select-height: 45px;
+                      top: 10%;
+                      right: 0%;
+                    }
+                .: |
+                  ha-card {
+                    background: none;
+                    border: none;
+                    box-shadow: none;
+                    padding: 0px !important;
+                  }
+  - type: entities
+    entities:
+      - type: divider
+        card_mod:
+          style: |
+            hr {
+              height: 1px !important;
+              width: 100% !important;
+              margin: 0 auto !important;
+              background-color: var(--divider-color, rgba(255, 255, 255, 0.12)) !important;
+              border: none !important;
+            }
+    card_mod:
+      style: |
+        ha-card {
+          padding: 0px !important;
+          margin: -12px 0px -12px 0px;
+        }
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-select-card
+        entity: select.evcc_garage_vehicle_name
+        fill_container: false
+        primary_info: state
+        secondary_info: none
+        layout: horizontal
+        icon_color: "#44739e"
+        card_mod:
+          style:
+            mushroom-state-info$:
+              .: |
+                .primary {
+                  width: 100px !important;
+                }
+            mushroom-select-option-control$:
+              mushroom-select$: |
+                .mdc-select__anchor{
+                  background: none !important;
+                  border-radius: 12px !important;
+                }
+                .mdc-line-ripple::before {
+                  border-bottom-width: 0px !important;
+                }
+                .mdc-line-ripple::after {
+                  border-bottom-width: 0px !important;
+                }
+                .mdc-select__selected-text {
+                  visibility: hidden;
+                }
+                .mdc-select__dropdown-icon {
+                  fill: transparent !important;  
+                }
+                .mdc-select {
+                  position: absolute !important;
+                  width: 100% !important;
+                  --select-height: 40px;
+                  top: 8px;
+                  left: 10px;
+                }
+            .: |
+              ha-card {
+                background: none;
+                border: none;
+                box-shadow: none;
+              }
+              mushroom-shape-icon {
+                {{ '--card-mod-icon: mdi:power-plug-off-outline;' if is_state('binary_sensor.evcc_garage_connected', 'off') }}
+                --shape-color: none !important;
+                --shape-color-disabled: none !important;
+              }
+              :host {
+                --mush-icon-symbol-size: 0.7em;
+                --mush-control-icon-size: 0.5em;
+                --mush-card-primary-color: var(--primary-color);
+                --mush-card-primary-font-weight: normal;
+                --mush-card-primary-font-size: 1.3em;
+                --mush-card-secondary-font-weight: normal;
+                --mush-card-secondary-font-size: 1.2em;
+              }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            icon: mdi:calendar-clock-outline
+            tap_action:
+              action: perform-action
+              perform_action: browser_mod.popup
+              data:
+                size: normal
+                dismissable: true
+                content:
+                  type: entities
+                  entities:
+                    - entity: input_datetime.evcc_plan_date_time
+                      name: Visible Name
+                      secondary_info: none
+                      card_mod:
+                        style: |
+                          :host {
+                            --paper-item-icon-color: transparent;
+                            --ha-card-background: transparent;
+                          }
+                          .state .name {
+                            display: none !important;
+                          }
+                    - entity: number.evcc_garage_charging_limit_soc
+                    - entity: button.evcc_garage_vehicle_plans_delete
+                  state_color: true
+                title: Ladeplanung
+              target: {}
+            icon_color: "#03a9f4"
+        alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              --chip-border-radius: 12px;
+              --chip-border-width: 0px;
+              --chip-box-shadow: none;
+              --chip-icon-size: 0.7em;
+              padding: 12px 12px !important;
+            }
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: template
+            entity: sensor.evcc_garage_vehicle_status
+            content: "{{ states('sensor.evcc_garage_vehicle_status') }} "
+            icon: mdi:lightning-bolt-circle
+          - type: spacer
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.evcc_garage_pv_action
+                state: disable
+            chip:
+              type: template
+              content: |-
+                {% set given_time = states('sensor.evcc_garage_pv_remaining') %}
+                {% if given_time != 'unknown' %}
+                  {% set given_time = as_datetime(given_time) %}
+                  {% set current_time = now() %}
+                  {% set time_difference = given_time - current_time %}
+                  {% set minutes = (time_difference.total_seconds() // 60) | int %}
+                  {% set seconds = (time_difference.total_seconds() % 60) | int %}
+                  {% if minutes > 0 %}
+                    {{ minutes }}:{{ '%02d' | format(seconds) }}m
+                  {% else %}
+                    {{ seconds }}s
+                  {% endif %}
+                {% endif %}
+              icon: mdi:weather-sunset-down
+          - type: conditional
+            conditions:
+              - condition: numeric_state
+                entity: select.evcc_garage_min_soc
+                above: sensor.evcc_garage_vehicle_soc
+            chip:
+              type: template
+              content: "{{ states('select.evcc_garage_min_soc') }}%"
+              icon: mdi:car-electric-outline
+              icon_color: orange
+          - type: conditional
+            conditions:
+              - condition: state
+                entity: sensor.evcc_garage_effective_plan_time
+                state_not: unknown
+            chip:
+              type: template
+              icon: mdi:calendar-start-outline
+              content: |-
+                {% set projected_date =
+                states('sensor.evcc_garage_plan_projected_start') %} {% if
+                projected_date not in ['none', 'unavailable', 'unknown'] %}
+                  {% set projected_date = as_datetime(projected_date) | as_local %}
+                  {% set projected_date_str = projected_date.strftime('%Y-%m-%d') %}
+                  {% set today = now().strftime('%Y-%m-%d') %}
+                  {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+                  {% set weekdays = ['Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.'] %}
+                  {% set weekday = weekdays[projected_date.weekday()] %}
+                    {{ weekday }} {{ projected_date.strftime('%H:%M') }}
+                {% endif %}
+        alignment: justify
+        card_mod:
+          style:
+            mushroom-template-chip: |
+              ha-card {
+                --chip-background: none;
+                --chip-border-width: 0;
+                --chip-icon-size: 1.7rem;
+                --chip-font-weight: normal;
+                --chip-font-size: 1.0rem !important;
+                padding: 0px 12px 0px 0px;
+              }
+            mushroom-template-chip:nth-child(1)$mushroom-chip$: |
+              ha-card {
+                --chip-icon-size: 0px;
+                #margin-left: 0px;
+                #padding: 0px;
+              }
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      margin: "-10px 0px -15px 0px"
+      grid-template-columns: 100%
+      grid-template-areas: |
+        "A1"
+    cards:
+      - type: horizontal-stack
+        cards:
+          - features:
+              - type: numeric-input
+                style: slider
+            type: tile
+            entity: input_number.evcc_garage_vehicle_soc
+            hide_state: true
+            card_mod:
+              style:
+                hui-card-features $:
+                  hui-card-feature $:
+                    hui-numeric-input-card-feature $:
+                      ha-control-slider$: |
+                        .container {
+                          --handle-size: 0px !important;
+                        }
+                        .slider {
+                          height: 35px !important;
+                          {{ '--control-slider-color: rgba(var(--rgb-primary-color), 0.0 ) !important;' if is_state('binary_sensor.evcc_garage_connected', 'off') else '--control-slider-color: rgba(var(--rgb-primary-color), 1.0 ) !important;' }}
+                          --control-slider-background: var(--primary-background-color); !important;
+                          --control-slider-background-opacity: 1.0 !important;
+                          --control-slider-thickness: var(--feature-height) !important;
+                          --control-slider-border-radius: var(--feature-border-radius) !important;
+                          {{ 'animation: fadeInOut 2s ease-in-out infinite;' if is_state('binary_sensor.evcc_garage_charging', 'on') }} 
+                        }
+                        @keyframes fadeInOut {
+                          0% { opacity: 0.4; }
+                          50% { opacity: 1; }
+                          100% { opacity: 0.4; }
+                        }
+                        .slider .slider-track-bar {
+                          border-radius: var(--control-slider-border-radius) !important;
+                        }
+                .: |
+                  ha-card .content {
+                    display: none !important;
+                  }
+                  ha-card {
+                    padding-top: 12px !important;
+                    background: transparent;
+                    border: none;
+                    box-shadow: none;
+                  }
+        view_layout:
+          grid-area: A1
+      - type: horizontal-stack
+        cards:
+          - type: tile
+            entity: number.evcc_garage_charging_limit_soc
+            hide_state: true
+            features:
+              - type: numeric-input
+                style: slider
+            card_mod:
+              style:
+                hui-card-features $:
+                  hui-card-feature $:
+                    hui-numeric-input-card-feature $:
+                      ha-control-slider$: |
+                        .container {
+                          {{ '--handle-size: 0px !important;' if is_state('binary_sensor.evcc_garage_connected', 'off') }}
+                        }
+                        .slider {
+                          height: 35px !important;
+                          {{ '--control-slider-color: rgba(var(--rgb-primary-color), 0.0 ) !important;' if is_state('binary_sensor.evcc_garage_connected', 'off') else '--control-slider-color: rgba(var(--rgb-primary-color), 0.2 ) !important;' }}
+                          --control-slider-background: rgba(var(--rgb-primary-background-color), 1.0) !important;
+                          --control-slider-background-opacity: 0.0 !important;
+                          --control-slider-thickness: var(--feature-height) !important;
+                          --control-slider-border-radius: var(--feature-border-radius) !important;      
+                        }
+                        .slider .slider-track-bar {
+                          border-radius: var(--control-slider-border-radius) !important;
+                        }
+                .: |
+                  ha-card .content {
+                    display: none !important;
+                  }
+                  ha-card {
+                    padding-top: 12px !important;
+                    background: transparent;
+                    border: none;
+                    box-shadow: none;
+                  }
+        view_layout:
+          grid-area: A1
+  - type: custom:layout-card
+    layout_type: custom:grid-layout
+    layout:
+      grid-template-columns: 33% 34% 33%
+      grid-template-areas: |
+        "A1 A2 A3"
+    cards:
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A1
+        cards:
+          - type: custom:mushroom-template-card
+            multiline_secondary: true
+            primary: Ladestand
+            secondary: |
+              {{states('sensor.evcc_garage_vehicle_soc') | round(1) }}%
+              {{ states('sensor.evcc_garage_vehicle_range') | round(0) }}km
+            icon: ""
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                }
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A2
+        cards:
+          - type: custom:mushroom-template-card
+            multiline_secondary: true
+            primary: Plan
+            secondary: >-
+              {% set projected_date =
+              states('sensor.evcc_garage_effective_plan_time') %} {% if
+              projected_date not in ['none', 'unavailable', 'unknown'] %}
+                {% set projected_date = as_datetime(projected_date) | as_local %}
+                {% set projected_date_str = projected_date.strftime('%Y-%m-%d') %}
+                {% set today = now().strftime('%Y-%m-%d') %}
+                {% set tomorrow = (now() + timedelta(days=1)).strftime('%Y-%m-%d') %}
+                {% set weekdays = ['Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.'] %}
+                {% set weekday = weekdays[projected_date.weekday()] %}
+                {% if projected_date_str == today %}
+                  Heute {{ projected_date.strftime('%H:%M') }} {{states('sensor.evcc_garage_effective_plan_soc') | round(1) }}%
+                {% elif projected_date_str == tomorrow %}
+                  Morgen {{ projected_date.strftime('%H:%M') }}
+                {{states('sensor.evcc_garage_effective_plan_soc') | round(1) }}%
+                {% else %}
+                  {{ weekday }} {{ projected_date.strftime('%H:%M') }} {{states('sensor.evcc_garage_effective_plan_soc') | round(1) }}%
+                {% endif %}
+              {% endif %}
+            icon: ""
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                  text-align: center;
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                  height: 100%;             /* Ensures full height of the container is used */
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+      - type: horizontal-stack
+        view_layout:
+          grid-area: A3
+        cards:
+          - type: custom:mushroom-template-card
+            multiline_secondary: true
+            primary: Ladelimit
+            secondary: |
+              {{ states('sensor.evcc_garage_effective_limit_soc') | round(0) }}%
+              {{ (states('sensor.evcc_garage_vehicle_range') | float *
+                states('sensor.evcc_garage_effective_limit_soc') | float /
+                states('sensor.evcc_garage_vehicle_soc') | float) | round(0) }}km
+            icon: ""
+            card_mod:
+              style: |
+                :host {
+                  --mush-card-primary-font-weight: normal;
+                  --mush-card-primary-font-size: 1.3em;
+                  --mush-card-secondary-font-weight: normal;
+                  --mush-card-secondary-font-size: 1.2em;
+                  text-align: right;  
+                }
+                ha-card {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px !important;
+                }
